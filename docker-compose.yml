@@ -1,0 +1,87 @@
+version: '3.8'
+services:
+    pokecenter_mysqldb:
+        image: mysql/mysql-server:8.0.23
+        container_name: pokecenter_db_dev
+        env_file: ./.env
+        environment: 
+            MYSQL_TCP_PORT: $MYSQL_DOCKER_PORT
+            MYSQL_DATABASE: $MYSQL_DATABASE
+            MYSQL_ROOT_HOST: "%"
+        ports: 
+            - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+        networks:
+            - pokecenter_network
+        volumes:
+            - pokecenter_mysql_dev:/var/lib/mysql
+            - pokecenter_mysql_config_dev:/etc/mysql
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: development
+
+    pokecenter_ms_users_dev:
+        container_name: pokecenter_ms_users_dev
+        build:
+            context: ./ms-users
+            dockerfile: Dockerfile
+            target: development
+        env_file: ./.env
+        ports:
+            - $USERS_HTTP_PORT:$USERS_HTTP_PORT
+        depends_on:
+            - pokecenter_mysqldb
+        command: npm run start:dev
+        restart: unless-stopped
+        networks:
+            - pokecenter_network
+        volumes:
+            - ./ms-users:/usr/src/app
+            - /usr/src/app/node_modules
+
+    pokecenter_ms_financial_dev:
+        container_name: pokecenter_ms_financial_dev
+        build:
+            context: ./ms-financial
+            dockerfile: Dockerfile
+            target: development
+        env_file: ./.env
+        ports:
+            - $FINANCIAL_HTTP_PORT:$FINANCIAL_HTTP_PORT
+        depends_on:
+            - pokecenter_mysqldb
+        command: npm run start:dev
+        restart: unless-stopped
+        networks:
+            - pokecenter_network
+        volumes:
+            - ./ms-financial:/usr/src/app
+            - /usr/src/app/node_modules
+
+    pokecenter_ms_gateway_dev:
+        container_name: pokecenter_ms_gateway_dev
+        build:
+            context: ./ms-gateway
+            dockerfile: Dockerfile
+            target: development
+        env_file: ./.env
+        ports:
+            - $GATEWAY_HTTP_PORT:$GATEWAY_HTTP_PORT
+        depends_on:
+            - pokecenter_mysqldb
+        command: npm run start:dev
+        restart: unless-stopped
+        networks:
+            - pokecenter_network
+        volumes:
+            - ./ms-gateway:/usr/src/app
+            - /usr/src/app/node_modules
+
+networks:
+  pokecenter_network:
+    driver: bridge
+
+volumes:
+    pokecenter_mysql_dev:
+    pokecenter_mysql_config_dev:
+    node_modules:

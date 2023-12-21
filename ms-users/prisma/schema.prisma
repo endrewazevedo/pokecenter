@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoTransacao {
+  DEBITO
+  CREDITO
+}
+
+model Cliente {
+  id        Int         @id @default(autoincrement())
+  nome      String
+  telefone  String
+  cpf       String      @db.VarChar(11)
+  saldo     Saldo       @relation(fields: [saldoId], references: [id])
+  saldoId   Int
+  Transacao Transacao[]
+  saldoHistorico SaldoHistorico[]
+}
+
+model Transacao {
+  id               Int            @id @default(autoincrement())
+  quantidade      Int
+  tipo            TipoTransacao
+  cliente         Cliente        @relation(fields: [clienteId], references: [id])
+  clienteId       Int
+  dataTransacao   DateTime       @default(now())
+  saldoAntes      Int
+  saldoDepois     Int
+  saldoHistorico SaldoHistorico[]
+}
+
+model Saldo {
+  id         Int       @id @default(autoincrement())
+  quantidade Int
+  cliente    Cliente[]
+}
+
+model SaldoHistorico {
+  id         Int              @id @default(autoincrement())
+  quantidade Int
+  cliente    Cliente         @relation(fields: [clienteId], references: [id])
+  clienteId  Int
+  dataAlteracao DateTime     @default(now())
+  transacao   Transacao       @relation(fields: [transacaoId], references: [id])
+  transacaoId  Int
+}
