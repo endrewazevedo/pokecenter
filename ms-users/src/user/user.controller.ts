@@ -18,7 +18,7 @@ import { CustomerQueryDto } from './dto/customer-query.dto';
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('create')
   @ApiOperation({ description: 'Rota para criar clientes' })
   @ApiResponse({ status: 201 })
   async createCliente(@Body() data: CustomerClienteDto) {
@@ -34,7 +34,7 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ description: 'Rota para buscar cliente por filtro' })
-  @ApiResponse({ status: 200, type: CustomerResponseDto })
+  @ApiResponse({ status: 200 })
   async getCustomerByFilter(@Query() query: CustomerQueryDto) {
     return await this.userService.getCustomerByFilter(query);
   }

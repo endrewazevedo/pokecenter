@@ -69,16 +69,16 @@ export class UserService {
   }
   async getCustomerByFilter(query: CustomerQueryDto) {
     const { name, cpf } = query;
+    const where =
+      name || cpf
+        ? { OR: [{ nome: { contains: name } }, { cpf: { equals: cpf } }] }
+        : {};
+
     const customerInfo = await this.prisma.cliente.findMany({
-      where: {
-        ...(name ? { nome: { contains: name } } : {}),
-        ...(cpf ? { cpf } : {}),
-      },
+      where,
       include: { saldo: true },
     });
-    if (!customerInfo) {
-      throw new NotFoundException('Cliente não encontrado');
-    }
+
     return customerInfo.map((clientInfo) => ({
       id: clientInfo.id,
       saldo: clientInfo.saldo.quantidade,

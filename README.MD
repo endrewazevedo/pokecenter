@@ -33,6 +33,16 @@ Bem-vindo ao Pokecenter, uma API robusta desenvolvida em NestJS, Prisma ORM e Do
    docker-compose exec pokecenter_ms_financial_dev npx prisma migrate dev
    ```
 
+5. **(Opcional) Execute o seed.js para enviar dados Mockados:**
+
+   ```bash
+   docker-compose exec pokecenter_ms_users_dev node prisma/seed.js
+   ```
+
+## Acessando a Aplicação
+
+Após iniciar o ambiente Docker, você pode acessar a aplicação em `localhost:3000/swagger`. Lá você encontrará a documentação da API e poderá testar os endpoints disponíveis.
+
 ## Microsserviços
 
 ### Gateway
@@ -41,8 +51,8 @@ O MS:Gateway serve como um intermediário entre as requisições dos clientes e 
 
 ### Users
 
-O MS:Users é especializado em funcionalidades relacionadas aos usuários, oferecendo recursos como autenticação e gerenciamento de perfis.
+O MS:Users é especializado em funcionalidades relacionadas aos usuários.
 
 ### Financial
 
-O MS:Financial concentra-se em operações financeiras, proporcionando controle e insights sobre o aspecto monetário da aplicação.
+O MS:Financial concentra-se em operações financeiras.

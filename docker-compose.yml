@@ -15,10 +15,6 @@ services:
         volumes:
             - pokecenter_mysql_dev:/var/lib/mysql
             - pokecenter_mysql_config_dev:/etc/mysql
-        build:
-            context: .
-            dockerfile: Dockerfile
-            target: development
 
     pokecenter_ms_users_dev:
         container_name: pokecenter_ms_users_dev

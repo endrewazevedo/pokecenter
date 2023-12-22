@@ -27,15 +27,23 @@ export class TransacaoService {
       include: { saldo: true },
     });
 
+    const tipoUpperCase = tipo.toUpperCase();
+
     if (!cliente) {
       throw new NotFoundException('Cliente não encontrado');
     }
 
-    if (tipo === TipoTransacao.Debito && cliente.saldo.quantidade < valor) {
+    if (
+      tipoUpperCase === TipoTransacao.Debito &&
+      cliente.saldo.quantidade < valor
+    ) {
       throw new BadRequestException('Saldo insuficiente');
     }
 
-    if (tipo !== TipoTransacao.Debito && tipo !== TipoTransacao.Credito) {
+    if (
+      tipoUpperCase !== TipoTransacao.Debito &&
+      tipoUpperCase !== TipoTransacao.Credito
+    ) {
       throw new BadRequestException('Tipo de transação inválido');
     }
 
@@ -54,7 +62,7 @@ export class TransacaoService {
     const transacao = await this.prisma.transacao.create({
       data: {
         quantidade,
-        tipo,
+        tipo: tipoUpperCase,
         clienteId: id_cliente,
         dataTransacao: new Date(),
         saldoAntes: cliente.saldo.quantidade,
@@ -71,6 +79,19 @@ export class TransacaoService {
     });
 
     return transacao;
+  }
+
+  async getBalanceById(id: number) {
+    const cliente = await this.prisma.cliente.findUnique({
+      where: { id },
+      include: { saldo: true },
+    });
+
+    if (!cliente) {
+      throw new NotFoundException('Cliente não encontrado');
+    }
+
+    return cliente.saldo;
   }
 
   async getHistoricById(id: number) {

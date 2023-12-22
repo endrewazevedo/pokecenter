@@ -25,6 +25,14 @@ export class TransacaoController {
     return await this.financialService.processarTransacao(transacaoDto);
   }
 
+  @Get('/saldo/:id')
+  @ApiOperation({ description: 'Rota para consultar o saldo do cliente' })
+  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.OK)
+  async getBalance(@Param('id', ParseIntPipe) id: number) {
+    return await this.financialService.getBalanceById(id);
+  }
+
   @Get('historico/:id')
   @ApiOperation({
     description: 'Rota para consultar o histórico de transações do cliente',

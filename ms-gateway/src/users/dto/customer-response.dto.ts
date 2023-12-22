@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ClienteResponseDto {
+export class CustomerResponseDto {
   @ApiProperty()
   readonly id: number;
 
@@ -12,4 +12,7 @@ export class ClienteResponseDto {
 
   @ApiProperty()
   readonly telefone: string;
+
+  @ApiProperty()
+  readonly cpf: string;
 }
