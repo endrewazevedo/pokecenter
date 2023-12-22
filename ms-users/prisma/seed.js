@@ -127,10 +127,10 @@ function main() {
                 case 0: return [4 /*yield*/, criarCliente('Maycon', '11111111', '11345678901', 1000)];
                 case 1:
                     cliente1 = _b.sent();
-                    return [4 /*yield*/, criarCliente('Anderson', '222222222', '21456789012', 1500)];
+                    return [4 /*yield*/, criarCliente('Jorge', '222222222', '21456789012', 1500)];
                 case 2:
                     cliente2 = _b.sent();
-                    return [4 /*yield*/, criarCliente('Libna', '333333333', '31567890123', 2000)];
+                    return [4 /*yield*/, criarCliente('Vitor', '333333333', '31567890123', 2000)];
                 case 3:
                     cliente3 = _b.sent();
                     transacoesCliente2 = [
