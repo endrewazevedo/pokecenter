@@ -11,7 +11,7 @@ Bem-vindo ao Pokecenter, uma API robusta desenvolvida em NestJS, Prisma ORM e Do
 1. **Clone o Repositório:**
 
    ```bash
-   git clone https://github.com/seu-usuario/pokecenter.git
+   git clone https://github.com/endrewazevedo/pokecenter.git
    cd pokecenter
    ```
 
